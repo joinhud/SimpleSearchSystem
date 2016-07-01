@@ -1151,17 +1151,17 @@ output {
 }
 .form-group.is-focused .form-control {
   outline: none;
-  background-image: linear-gradient(#78c4cd, #78c4cd), linear-gradient(#D2D2D2, #D2D2D2);
+  background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2);
   background-size: 100% 2px, 100% 1px;
   box-shadow: none;
   transition-duration: 0.3s;
 }
 .form-group.is-focused .form-control .material-input:after {
-  background-color: #78c4cd;
+  background-color: #9c27b0;
 }
 .form-group.is-focused label,
 .form-group.is-focused label.control-label {
-  color: #78c4cd;
+  color: #9c27b0;
 }
 .form-group.is-focused.label-placeholder label,
 .form-group.is-focused.label-placeholder label.control-label {
@@ -2472,7 +2472,7 @@ h6, .h6 {
   background-color: #FFFFFF;
 }
 .card .header-primary {
-  background: linear-gradient(60deg, #78C4CD, #4c8e97);
+  background: linear-gradient(60deg, #ab47bc, #7b1fa2);
 }
 .card .header-info {
   background: linear-gradient(60deg, #29b6f6, #0288d1);
