@@ -22,9 +22,17 @@ public class UserServiceImpl implements UserService {
         return repository.findOne(id);
     }
 
-    /*public User getByName(String name) {
-        return repository.findByName(name);
-    }*/
+    public User getByName(String name) {
+        List<User> users = repository.findAll();
+
+        for(User temp : users) {
+            if(temp.getName().equals(name)) {
+                return temp;
+            }
+        }
+
+        return null;
+    }
 
     public User save(User user) {
         return repository.saveAndFlush(user);
@@ -33,4 +41,5 @@ public class UserServiceImpl implements UserService {
     public void delete(int id) {
         repository.delete(id);
     }
+
 }
