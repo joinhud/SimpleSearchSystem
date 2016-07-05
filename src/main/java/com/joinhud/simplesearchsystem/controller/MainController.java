@@ -1,8 +1,8 @@
 package com.joinhud.simplesearchsystem.controller;
 
 import com.joinhud.simplesearchsystem.entity.User;
+import com.joinhud.simplesearchsystem.service.GainService;
 import com.joinhud.simplesearchsystem.service.UserService;
-import com.joinhud.simplesearchsystem.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +17,9 @@ public class MainController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private GainService gainService;
+
     private User currUser;
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
@@ -25,11 +28,13 @@ public class MainController {
     }
 
     @RequestMapping(value = {"/", "/main"}, method = RequestMethod.GET)
-    public String mainView() {
+    public String mainView(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
-        userService.getByName(name);
+        User user = userService.getByName(name);
+        model.addAttribute("userName", name);
+        model.addAttribute("userGains", gainService.getByUserId(user.getId()));
 
         return "main";
     }

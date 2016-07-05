@@ -11,7 +11,7 @@ public class User {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     private int id;
 
     @Column(name = "name", nullable = false, unique = true)
