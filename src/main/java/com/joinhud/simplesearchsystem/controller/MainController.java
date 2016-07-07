@@ -1,6 +1,7 @@
 package com.joinhud.simplesearchsystem.controller;
 
 import com.joinhud.simplesearchsystem.entity.User;
+import com.joinhud.simplesearchsystem.service.ExpenseService;
 import com.joinhud.simplesearchsystem.service.GainService;
 import com.joinhud.simplesearchsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,14 @@ public class MainController {
     @Autowired
     private GainService gainService;
 
+    @Autowired
+    private ExpenseService expenseService;
+
     private User currUser;
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public String loginView(Model model) {
+
         return "index";
     }
 
@@ -34,7 +39,10 @@ public class MainController {
         String name = auth.getName();
         User user = userService.getByName(name);
         model.addAttribute("userName", name);
+        model.addAttribute("balance",
+                gainService.sumAllById(user.getId()) - expenseService.sumAllById(user.getId()));
         model.addAttribute("userGains", gainService.getByUserId(user.getId()));
+        model.addAttribute("userExpenses", expenseService.getByUserId(user.getId()));
 
         return "main";
     }

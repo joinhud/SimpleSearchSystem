@@ -43,4 +43,20 @@ public class GainServiceImpl implements GainService {
             return resultList;
         }
     }
+
+    public int sumAllById(int id) {
+
+        int sum = 0;
+
+        for(Gain temp : repository.findAll()) {
+
+            if(temp.getId() == id) {
+                sum += temp.getValue();
+            }
+
+        }
+
+        return sum;
+
+    }
 }

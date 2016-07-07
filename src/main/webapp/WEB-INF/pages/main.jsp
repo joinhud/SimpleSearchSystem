@@ -121,51 +121,50 @@
                         </c:choose>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4">
-                        <div class="panel panel-danger">
-                            <!-- Default panel contents -->
-                            <div class="panel-heading">Expenses</div>
-                            <!-- Table -->
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">Date</th>
-                                        <th class="text-center">Value</th>
-                                        <th class="text-center">Category</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="text-center">21</td>
-                                        <td class="text-center">Eugene</td>
-                                        <td class="text-center">root</td>
-                                        <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" title="Edit Profile" class="btn btn-success btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">45</td>
-                                        <td class="text-center">Test</td>
-                                        <td class="text-center">test</td>
-                                        <td class="td-actions text-center">
-                                            <button type="button" rel="tooltip" title="Edit Profile" class="btn btn-success btn-simple btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <c:choose>
+                            <c:when test="${empty userExpenses}">
+                                <button class="btn btn-raised btn-danger btn-lg text-center">
+                                    Add first expense
+                                    <div class="ripple-container"></div>
+                                </button>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="panel panel-danger">
+                                    <!-- Default panel contents -->
+                                    <div class="panel-heading">Expenses</div>
+                                    <!-- Table -->
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Value</th>
+                                                <th class="text-center">Category</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <c:forEach items="${userExpenses}" var="expense">
+                                                    <tr>
+                                                        <td class="text-center">${expense.date}</td>
+                                                        <td class="text-center">${expense.value}</td>
+                                                        <td class="text-center">${expense.category}</td>
+                                                        <td class="td-actions text-center">
+                                                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
