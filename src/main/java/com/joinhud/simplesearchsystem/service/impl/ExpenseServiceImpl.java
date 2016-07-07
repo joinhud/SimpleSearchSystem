@@ -48,9 +48,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         int sum = 0;
 
         for(Expense temp : repository.findAll()) {
+
             if(temp.getIdUser() == id) {
                 sum += temp.getValue();
             }
+
         }
 
         return sum;

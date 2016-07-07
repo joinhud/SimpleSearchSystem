@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="" target="_blank" class="btn">
+                    <a href="/logout" target="_self" class="btn">
                         <i class="material-icons">exit_to_app</i> Log Out
                     </a>
                 </li>
@@ -62,25 +62,27 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <div class="card">
-                            <div class="card-body text-center">
+                            <div class="text-center">
                                 <h5>
                                     Current balance : ${balance} $
                                 </h5>
-                                <div class="btn btn-primary">
-                                    <i class="material-icons">add</i>
-                                    Add
-                                    <div class="ripple-container"></div>
-                                </div>
+                                <c:if test="${!empty userGains and !empty userExpenses}">
+                                    <div class="btn btn-primary">
+                                        <i class="material-icons">add</i>
+                                        Add
+                                        <div class="ripple-container"></div>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <c:choose>
                             <c:when test="${empty userGains}">
-                                <button class="btn btn-raised btn-success btn-lg text-center">
+                                <a href="/gain_add" class="btn btn-raised btn-success btn-lg text-center">
                                     Add first gain
                                     <div class="ripple-container"></div>
-                                </button>
+                                </a>
                             </c:when>
                             <c:otherwise>
                                 <div class="panel panel-success">

@@ -50,7 +50,7 @@ public class GainServiceImpl implements GainService {
 
         for(Gain temp : repository.findAll()) {
 
-            if(temp.getId() == id) {
+            if(temp.getIdUser() == id) {
                 sum += temp.getValue();
             }
 
