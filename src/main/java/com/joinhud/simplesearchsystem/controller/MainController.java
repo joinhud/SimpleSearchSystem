@@ -6,10 +6,14 @@ import com.joinhud.simplesearchsystem.service.ExpenseService;
 import com.joinhud.simplesearchsystem.service.GainService;
 import com.joinhud.simplesearchsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -28,9 +32,13 @@ public class MainController {
     @Autowired
     private ExpenseService expenseService;
 
-    private User currUser;
+    private SimpleDateFormat htmlFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private SimpleDateFormat htmlFormat = new SimpleDateFormat("MM/dd/yyyy");
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        htmlFormat.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(htmlFormat, true));
+    }
 
     @RequestMapping(value = {"/index"}, method = RequestMethod.GET)
     public String loginView(Model model) {
@@ -43,14 +51,7 @@ public class MainController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
-        if(!name.equals("anonymousUser")) {
-            User user = userService.getByName(name);
-            model.addAttribute("userName", name);
-            model.addAttribute("balance",
-                    gainService.sumAllById(user.getId()) - expenseService.sumAllById(user.getId()));
-            model.addAttribute("userGains", gainService.getByUserId(user.getId()));
-            model.addAttribute("userExpenses", expenseService.getByUserId(user.getId()));
-        }
+        loadCurrUser(model, name);
 
         return "main";
     }
@@ -58,18 +59,45 @@ public class MainController {
     @RequestMapping(value = {"/gain_add"}, method = RequestMethod.GET)
     public String gainView(Model model) {
 
-        Gain gain = new Gain();
-        model.addAttribute("gainForm", gain);
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         model.addAttribute("userName", name);
+
+        Gain gain = new Gain();
+        model.addAttribute("gainForm", gain);
 
         Date date = new Date();
         String dateStr = htmlFormat.format(date);
         model.addAttribute("currDate", dateStr);
 
         return "gain";
+    }
+
+    @RequestMapping(value = {"/gain_add"}, method = RequestMethod.POST)
+    public String gainAdd(@ModelAttribute("gainForm") Gain gain, Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        User user = userService.getByName(name);
+        gain.setIdUser(user.getId());
+
+        gainService.save(gain);
+        loadCurrUser(model, name);
+
+        return "main";
+    }
+
+    private void loadCurrUser(Model model, String userName) {
+
+        if(!userName.equals("anonymousUser")) {
+            User user = userService.getByName(userName);
+            model.addAttribute("userName", userName);
+            model.addAttribute("balance",
+                    gainService.sumAllById(user.getId()) - expenseService.sumAllById(user.getId()));
+            model.addAttribute("userGains", gainService.getByUserId(user.getId()));
+            model.addAttribute("userExpenses", expenseService.getByUserId(user.getId()));
+        }
+
     }
 
 }

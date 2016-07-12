@@ -1,6 +1,7 @@
 package com.joinhud.simplesearchsystem.entity;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Gain {
 
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date date;
 
     @Column(name = "value", nullable = false)

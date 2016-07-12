@@ -13,24 +13,41 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <spring:url value="/resources/core/js/jquery.min.js" var="jqrJs"/>
+    <script src="${jqrJs}" type="text/javascript"></script>
 </head>
 <body class="index-page">
 <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index	">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-index ">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#pablo">${userName}</a>
+            <a class="navbar-brand" href="#pablo">
+                <i class="material-icons">account_circle</i>
+                ${userName}
+            </a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation-index">
             <ul class="nav navbar-nav navbar-right">
+                <c:if test="${!empty userGains or !empty userExpenses}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="material-icons">add</i>Add <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/gain_add">Gain</a></li>
+                            <li><a href="#">Expense</a></li>
+                        </ul>
+                    </li>
+                </c:if>
                 <li>
-                    <a href="" target="_blank" class="btn">
+                    <a href="" target="_self" class="btn">
                         <i class="material-icons">poll</i> Main
                     </a>
                 </li>
@@ -66,13 +83,6 @@
                                 <h5>
                                     Current balance : ${balance} $
                                 </h5>
-                                <c:if test="${!empty userGains and !empty userExpenses}">
-                                    <div class="btn btn-primary">
-                                        <i class="material-icons">add</i>
-                                        Add
-                                        <div class="ripple-container"></div>
-                                    </div>
-                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -177,14 +187,18 @@
 </body>
 <!--   Core JS Files   -->
 <spring:url value="/resources/core/js/bootstrap.min.js" var="btstrpJs"/>
-<script src="${btstrpJs}"></script>
-<spring:url value="/resources/core/js/jquery.min.js" var="jqrJs"/>
-<script src="${jqrJs}"></script>
+<script src="${btstrpJs}" type="text/javascript"></script>
 <spring:url value="/resources/core/js/material.min.js" var="mtrlJs"/>
-<script src="${mtrlJs}"></script>
+<script src="${mtrlJs}" type="text/javascript"></script>
+
 <!-- Control Center for Material Kit: activating the ripples, parallax effects, scripts from the example pages etc -->
 <spring:url value="/resources/core/js/material-kit.js" var="mtrlKitJs"/>
-<script src="${mtrlKitJs}"></script>
+<script src="${mtrlKitJs}" type="text/javascript"></script>
+<spring:url value="/resources/core/js/nouislider.min.js" var="sliderJs"/>
+<script src="${sliderJs}" type="text/javascript"></script>
+<spring:url value="/resources/core/js/bootstrap-datepicker.js" var="datepickerJs"/>
+<script src="${datepickerJs}" type="text/javascript"></script>
+
 <!-- Script for flex  -->
 <script type="text/javascript">
     $().ready(function(){

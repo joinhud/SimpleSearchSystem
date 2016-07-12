@@ -25,7 +25,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="">${userName}</a>
+            <a class="navbar-brand" href="">
+                <i class="material-icons">account_circle</i>
+                ${userName}
+            </a>
         </div>
 
         <div class="collapse navbar-collapse" id="navigation-index">
@@ -49,7 +52,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="card">
-                    <form:form action="${loginUrl}" method="post" commandName="gainForm" cssClass="form">
+                    <form:form action="gain_add" method="post" commandName="gainForm" cssClass="form">
                         <div class="header header-success text-center">
                             <h4>Gain</h4>
                         </div>
@@ -88,7 +91,6 @@
                                     <form:option value="Percents"/>
                                 </form:select>
                             </div>
-
                         </div>
                         <div class="footer text-center">
                             <button class="btn btn-success btn-wd btn-lg" type="submit">
