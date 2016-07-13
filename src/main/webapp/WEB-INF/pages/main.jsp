@@ -42,7 +42,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="/gain_add">Gain</a></li>
-                            <li><a href="#">Expense</a></li>
+                            <li><a href="/expense_add">Expense</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -135,10 +135,10 @@
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <c:choose>
                             <c:when test="${empty userExpenses}">
-                                <button class="btn btn-raised btn-danger btn-lg text-center">
+                                <a href="/expense_add" class="btn btn-raised btn-danger btn-lg text-center">
                                     Add first expense
                                     <div class="ripple-container"></div>
-                                </button>
+                                </a>
                             </c:when>
                             <c:otherwise>
                                 <div class="panel panel-danger">

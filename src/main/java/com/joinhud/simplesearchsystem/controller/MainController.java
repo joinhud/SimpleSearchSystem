@@ -1,5 +1,6 @@
 package com.joinhud.simplesearchsystem.controller;
 
+import com.joinhud.simplesearchsystem.entity.Expense;
 import com.joinhud.simplesearchsystem.entity.Gain;
 import com.joinhud.simplesearchsystem.entity.User;
 import com.joinhud.simplesearchsystem.service.ExpenseService;
@@ -33,6 +34,27 @@ public class MainController {
     private ExpenseService expenseService;
 
     private SimpleDateFormat htmlFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    private void loadCurrUser(Model model, String userName) {
+
+        if(!userName.equals("anonymousUser")) {
+            User user = userService.getByName(userName);
+            model.addAttribute("userName", userName);
+            model.addAttribute("balance",
+                    gainService.sumAllById(user.getId()) - expenseService.sumAllById(user.getId()));
+            model.addAttribute("userGains", gainService.getByUserId(user.getId()));
+            model.addAttribute("userExpenses", expenseService.getByUserId(user.getId()));
+        }
+
+    }
+
+    private User getCurrUser() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+
+        return userService.getByName(name);
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -76,28 +98,43 @@ public class MainController {
     @RequestMapping(value = {"/gain_add"}, method = RequestMethod.POST)
     public String gainAdd(@ModelAttribute("gainForm") Gain gain, Model model) {
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        User user = userService.getByName(name);
+        User user = getCurrUser();
         gain.setIdUser(user.getId());
 
         gainService.save(gain);
-        loadCurrUser(model, name);
+        loadCurrUser(model, user.getName());
 
         return "main";
     }
 
-    private void loadCurrUser(Model model, String userName) {
+    @RequestMapping(value = {"/expense_add"}, method = RequestMethod.GET)
+    public String expenseView(Model model) {
 
-        if(!userName.equals("anonymousUser")) {
-            User user = userService.getByName(userName);
-            model.addAttribute("userName", userName);
-            model.addAttribute("balance",
-                    gainService.sumAllById(user.getId()) - expenseService.sumAllById(user.getId()));
-            model.addAttribute("userGains", gainService.getByUserId(user.getId()));
-            model.addAttribute("userExpenses", expenseService.getByUserId(user.getId()));
-        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        model.addAttribute("userName", name);
 
+        Gain gain = new Gain();
+        Expense expense = new Expense();
+        model.addAttribute("expenseForm", expense);
+
+        Date date = new Date();
+        String dateStr = htmlFormat.format(date);
+        model.addAttribute("currDate", dateStr);
+
+        return "expense";
+    }
+
+    @RequestMapping(value = {"/expense_add"}, method = RequestMethod.POST)
+    public String expenseAdd(@ModelAttribute("expenseForm") Expense expense, Model model) {
+
+        User user = getCurrUser();
+        expense.setIdUser(user.getId());
+
+        expenseService.save(expense);
+        loadCurrUser(model, user.getName());
+
+        return "main";
     }
 
 }
