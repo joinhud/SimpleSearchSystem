@@ -8,15 +8,13 @@ import com.joinhud.simplesearchsystem.service.GainService;
 import com.joinhud.simplesearchsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -137,4 +135,19 @@ public class MainController {
         return "main";
     }
 
+    @RequestMapping(value = "/deleteGain/{id}", method = RequestMethod.DELETE,
+                    produces = MediaType.APPLICATION_JSON_VALUE,
+                    consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void deleteGain(@PathVariable("id") int id) {
+        gainService.deleteById(id);
+    }
+
+    @RequestMapping(value = "/deleteExpense/{id}", method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public void deleteExpense(@PathVariable("id") int id) {
+        expenseService.deleteById(id);
+    }
 }

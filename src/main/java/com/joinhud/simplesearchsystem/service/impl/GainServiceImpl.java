@@ -59,4 +59,20 @@ public class GainServiceImpl implements GainService {
         return sum;
 
     }
+
+    public Gain deleteById(int id) {
+
+        Gain gain = null;
+
+        for(Gain temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                gain = temp;
+                repository.delete(temp);
+                return gain;
+            }
+        }
+
+        return null;
+
+    }
 }

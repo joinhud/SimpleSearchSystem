@@ -58,4 +58,19 @@ public class ExpenseServiceImpl implements ExpenseService {
         return sum;
 
     }
+
+    public Expense deleteById(int id) {
+
+        Expense expense;
+
+        for(Expense temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                expense = temp;
+                repository.delete(temp);
+                return expense;
+            }
+        }
+
+        return null;
+    }
 }

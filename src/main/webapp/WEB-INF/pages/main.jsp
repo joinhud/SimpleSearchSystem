@@ -16,6 +16,44 @@
 
     <spring:url value="/resources/core/js/jquery.min.js" var="jqrJs"/>
     <script src="${jqrJs}" type="text/javascript"></script>
+
+    <script>
+
+        $(document).ready(function() {
+            var deleteLink = $("a.removeItem");
+                    //$("a:contains('Delete')");
+
+
+            $(deleteLink).click(function(event) {
+                var conBox = confirm("Are you sure ?");
+
+                if(conBox){
+                    $.ajax({
+                        url: $(event.target).attr("href"),
+                        type: "DELETE",
+
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("Accept", "application/json");
+                            xhr.setRequestHeader("Content-Type", "application/json");
+                        },
+
+                        success: function() {
+                            var tr = $(event.target).closest("tr");
+                            tr.css("background-color","#000000");
+                            tr.fadeIn(1000).fadeOut(200, function(){
+                                tr.remove();
+                            })
+                        }
+                    });
+                } else {
+                    event.preventDefault();
+                }
+
+                event.preventDefault();
+            });
+
+        });
+    </script>
 </head>
 <body class="index-page">
 <nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
@@ -116,12 +154,14 @@
                                                         <td class="text-center">${gain.value}</td>
                                                         <td class="text-center">${gain.category}</td>
                                                         <td class="td-actions text-center">
-                                                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                                            <a type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
                                                                 <i class="fa fa-edit"></i>
-                                                            </button>
-                                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                            </a>
+                                                            <a href="${pageContext.request.contextPath}/deleteGain/${gain.id}.json"
+                                                               type="button" rel="tooltip" title="Remove"
+                                                               class="btn btn-danger btn-simple btn-xs removeItem">
                                                                 <i class="fa fa-times"></i>
-                                                            </button>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -162,12 +202,14 @@
                                                         <td class="text-center">${expense.value}</td>
                                                         <td class="text-center">${expense.category}</td>
                                                         <td class="td-actions text-center">
-                                                            <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                                            <a type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
                                                                 <i class="fa fa-edit"></i>
-                                                            </button>
-                                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                            </a>
+                                                            <a href="${pageContext.request.contextPath}/deleteExpense/${expense.id}.json"
+                                                               type="button" rel="tooltip" title="Remove"
+                                                               class="btn btn-danger btn-simple btn-xs removeItem">
                                                                 <i class="fa fa-times"></i>
-                                                            </button>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>

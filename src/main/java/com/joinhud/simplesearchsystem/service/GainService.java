@@ -11,6 +11,7 @@ public interface GainService {
     List<Gain> getByUserId(int id);
     Gain save(Gain gain);
     void delete(Gain gain);
+    Gain deleteById(int id);
     int sumAllById(int id);
 
 }
