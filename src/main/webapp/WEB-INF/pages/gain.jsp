@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="card">
-                    <form:form action="gain_add" method="post" commandName="gainForm" cssClass="form">
+                    <form:form action="gain/${id}" method="post" commandName="gainForm" cssClass="form">
                         <div class="header header-success text-center">
                             <h4>Gain</h4>
                         </div>

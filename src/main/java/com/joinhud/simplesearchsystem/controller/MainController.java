@@ -76,8 +76,8 @@ public class MainController {
         return "main";
     }
 
-    @RequestMapping(value = {"/gain_add"}, method = RequestMethod.GET)
-    public String gainView(Model model) {
+    @RequestMapping(value = {"/gain"}, method = RequestMethod.GET)
+    public String gainAddView(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
@@ -93,7 +93,24 @@ public class MainController {
         return "gain";
     }
 
-    @RequestMapping(value = {"/gain_add"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/gain/{id}"}, method = RequestMethod.GET)
+    public String gainEditView(@PathVariable("id") int id, Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        model.addAttribute("userName", name);
+
+        Gain gain = gainService.getGainById(id);
+        model.addAttribute("gainForm", gain);
+
+        Date date = gain.getDate();
+        String dateStr = htmlFormat.format(date);
+        model.addAttribute("currDate", dateStr);
+
+        return "gain";
+    }
+
+    @RequestMapping(value = {"/gain/"}, method = RequestMethod.POST)
     public String gainAdd(@ModelAttribute("gainForm") Gain gain, Model model) {
 
         User user = getCurrUser();
@@ -105,14 +122,43 @@ public class MainController {
         return "main";
     }
 
-    @RequestMapping(value = {"/expense_add"}, method = RequestMethod.GET)
-    public String expenseView(Model model) {
+    @RequestMapping(value = {"/gain/gain/{id}"}, method = RequestMethod.POST)
+    public String gainEdit(@PathVariable("id") int id,
+                           @ModelAttribute("gainForm") Gain gain, Model model) {
+
+        User user = getCurrUser();
+
+        gainService.edit(id, gain);
+
+        loadCurrUser(model, user.getName());
+
+        return "main";
+    }
+
+    @RequestMapping(value = {"/expense/{id}"}, method = RequestMethod.GET)
+    public String expenseView(@PathVariable("id") int id, Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName();
         model.addAttribute("userName", name);
 
-        Gain gain = new Gain();
+        Expense expense = expenseService.getExpenseById(id);
+        model.addAttribute("expenseForm", expense);
+
+        Date date = expense.getDate();
+        String dateStr = htmlFormat.format(date);
+        model.addAttribute("currDate", dateStr);
+
+        return "expense";
+    }
+
+    @RequestMapping(value = {"/expense"}, method = RequestMethod.GET)
+    public String expenseEditView(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        model.addAttribute("userName", name);
+
         Expense expense = new Expense();
         model.addAttribute("expenseForm", expense);
 
@@ -123,13 +169,27 @@ public class MainController {
         return "expense";
     }
 
-    @RequestMapping(value = {"/expense_add"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/expense/"}, method = RequestMethod.POST)
     public String expenseAdd(@ModelAttribute("expenseForm") Expense expense, Model model) {
 
         User user = getCurrUser();
         expense.setIdUser(user.getId());
 
         expenseService.save(expense);
+
+        loadCurrUser(model, user.getName());
+
+        return "main";
+    }
+
+    @RequestMapping(value = {"/expense/expense/{id}"}, method = RequestMethod.POST)
+    public String expenseEdit(@PathVariable("id") int id,
+                           @ModelAttribute("expenseForm") Expense expense, Model model) {
+
+        User user = getCurrUser();
+
+        expenseService.edit(id, expense);
+
         loadCurrUser(model, user.getName());
 
         return "main";
@@ -150,4 +210,5 @@ public class MainController {
     public void deleteExpense(@PathVariable("id") int id) {
         expenseService.deleteById(id);
     }
+
 }

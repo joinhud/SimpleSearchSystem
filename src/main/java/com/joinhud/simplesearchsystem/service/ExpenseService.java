@@ -12,6 +12,8 @@ public interface ExpenseService {
     Expense save(Expense gain);
     void delete(Expense gain);
     int sumAllById(int id);
+    Expense getExpenseById(int id);
     Expense deleteById(int id);
+    Expense edit(int id, Expense expense);
 
 }

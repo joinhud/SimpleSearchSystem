@@ -62,7 +62,7 @@ public class GainServiceImpl implements GainService {
 
     public Gain deleteById(int id) {
 
-        Gain gain = null;
+        Gain gain;
 
         for(Gain temp : repository.findAll()) {
             if(temp.getId() == id) {
@@ -75,4 +75,32 @@ public class GainServiceImpl implements GainService {
         return null;
 
     }
+
+    public Gain getGainById(int id) {
+
+        Gain gain = null;
+
+        for(Gain temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                gain = temp;
+                break;
+            }
+        }
+
+        return gain;
+    }
+
+    public Gain edit(int id, Gain gain) {
+
+        for(Gain temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                gain.setId(id);
+                gain.setIdUser(temp.getIdUser());
+                break;
+            }
+        }
+
+        return repository.saveAndFlush(gain);
+    }
+
 }

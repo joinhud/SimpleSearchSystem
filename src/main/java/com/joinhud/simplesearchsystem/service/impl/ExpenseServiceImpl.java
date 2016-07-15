@@ -73,4 +73,29 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return null;
     }
+
+    public Expense getExpenseById(int id) {
+        Expense expense = null;
+
+        for(Expense temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                expense = temp;
+                break;
+            }
+        }
+
+        return expense;
+    }
+
+    public Expense edit(int id, Expense expense) {
+        for(Expense temp : repository.findAll()) {
+            if(temp.getId() == id) {
+                expense.setId(id);
+                expense.setIdUser(temp.getIdUser());
+                break;
+            }
+        }
+
+        return repository.saveAndFlush(expense);
+    }
 }

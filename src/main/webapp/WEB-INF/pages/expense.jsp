@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="card">
-                    <form:form action="expense_add" method="post" commandName="expenseForm" cssClass="form">
+                    <form:form action="expense/${id}" method="post" commandName="expenseForm" cssClass="form">
                         <div class="header header-danger text-center">
                             <h4>Expense</h4>
                         </div>

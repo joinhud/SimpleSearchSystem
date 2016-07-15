@@ -21,7 +21,6 @@
 
         $(document).ready(function() {
             var deleteLink = $("a.removeItem");
-                    //$("a:contains('Delete')");
 
 
             $(deleteLink).click(function(event) {
@@ -79,16 +78,11 @@
                             <i class="material-icons">add</i>Add <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/gain_add">Gain</a></li>
-                            <li><a href="/expense_add">Expense</a></li>
+                            <li><a href="/gain">Gain</a></li>
+                            <li><a href="/expense">Expense</a></li>
                         </ul>
                     </li>
                 </c:if>
-                <li>
-                    <a href="" target="_self" class="btn">
-                        <i class="material-icons">poll</i> Main
-                    </a>
-                </li>
                 <li>
                     <a href="/logout" target="_self" class="btn">
                         <i class="material-icons">exit_to_app</i> Log Out
@@ -127,7 +121,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <c:choose>
                             <c:when test="${empty userGains}">
-                                <a href="/gain_add" class="btn btn-raised btn-success btn-lg text-center">
+                                <a href="/gain" class="btn btn-raised btn-success btn-lg text-center">
                                     Add first gain
                                     <div class="ripple-container"></div>
                                 </a>
@@ -154,7 +148,8 @@
                                                         <td class="text-center">${gain.value}</td>
                                                         <td class="text-center">${gain.category}</td>
                                                         <td class="td-actions text-center">
-                                                            <a type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                                            <a href="/gain/${gain.id}"
+                                                               type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                             <a href="${pageContext.request.contextPath}/deleteGain/${gain.id}.json"
@@ -175,7 +170,7 @@
                     <div class="col-xs-12 col-sm-6 col-md-4">
                         <c:choose>
                             <c:when test="${empty userExpenses}">
-                                <a href="/expense_add" class="btn btn-raised btn-danger btn-lg text-center">
+                                <a href="/expense" class="btn btn-raised btn-danger btn-lg text-center">
                                     Add first expense
                                     <div class="ripple-container"></div>
                                 </a>
@@ -202,7 +197,8 @@
                                                         <td class="text-center">${expense.value}</td>
                                                         <td class="text-center">${expense.category}</td>
                                                         <td class="td-actions text-center">
-                                                            <a type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
+                                                            <a href="/expense/${expense.id}"
+                                                               type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                             <a href="${pageContext.request.contextPath}/deleteExpense/${expense.id}.json"
