@@ -74,7 +74,7 @@
 										</span>
                                 <div class="form-group label-floating">
                                     <label class="control-label">Value</label>
-                                    <form:input type="number" path="value" cssClass="form-control"/>
+                                    <form:input min="1" type="number" path="value" cssClass="form-control"/>
                                 </div>
                             </div>
 

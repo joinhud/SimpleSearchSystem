@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -96,7 +97,7 @@
     <div class="header header-filter" style="background-image: url('/resources/core/img/accounting-degree-tools.jpg');">
         <div class="container">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-12 col-md-offset-2">
                     <div class="brand">
                         <h1>Personal e-accounting</h1>
                     </div>
@@ -112,9 +113,183 @@
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <div class="card">
                             <div class="text-center">
-                                <h5>
+                                <h4>
                                     Current balance : ${balance} $
-                                </h5>
+                                </h4>
+                            </div>
+                            <hr/>
+                            <div class="text-center">
+                                <a href="/" class="btn btn-primary btn-round">
+                                    Get All
+                                </a>
+                            </div>
+                            <hr/>
+                            <div class="text-center">
+                                <button class="btn btn-info btn-round" data-toggle="collapse"
+                                        data-target="#collapseSearch" aria-expanded="false"
+                                        aria-controls="collapseSearch">
+                                    <i class="material-icons">search</i> Search
+                                </button>
+                            </div>
+                            <div class="collapse" id="collapseSearch">
+                                <div>
+                                    <form action="getByYear" method="get" class="form">
+                                        <div class="content">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Search by year
+                                                </h5>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="material-icons">date_range</i>
+                                                </span>
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Year</label>
+                                                    <input type="number" min="1" name="year" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button class="btn btn-info btn-wd btn-lg" type="submit">
+                                                Ok
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <hr/>
+
+                                    <form action="getByMonth" method="get" class="form">
+                                        <div class="content">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Search by month
+                                                </h5>
+                                            </div>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="material-icons">date_range</i>
+                                                </span>
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Number of Month</label>
+                                                    <input type="number" min="1" max="12" name="month" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button class="btn btn-info btn-wd btn-lg" type="submit">
+                                                Ok
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <hr/>
+
+                                    <form action="getByDay" method="get" class="form">
+                                        <div class="content">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Search by day
+                                                </h5>
+                                            </div>
+                                            <div class="input-group">
+										        <span class="input-group-addon">
+										        	<i class="material-icons">date_range</i>
+										        </span>
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Date</label>
+                                                    <input type="text" name="day" class="datepicker form-control" value="${currDay}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button class="btn btn-info btn-wd btn-lg" type="submit">
+                                                Ok
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <hr/>
+
+                                    <form action="getByValueRange" method="get" class="form">
+                                        <div class="content">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Search by value range
+                                                </h5>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Min value</label>
+                                                    <input type="number" min="0" max="999999" name="min_val" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Max value</label>
+                                                    <input type="number" min="0" max="999999" name="max_val" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button class="btn btn-info btn-wd btn-lg" type="submit">
+                                                Ok
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <hr/>
+
+                                    <form action="getByCategory" method="get" class="form">
+                                        <div class="content">
+                                            <div class="text-center">
+                                                <h5>
+                                                    Search by category
+                                                </h5>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Gains category</label>
+                                                    <select name="gainCategory" class="form-control">
+                                                        <option selected value="">Choose category</option>
+                                                        <option value="Gifts">Gifts</option>
+                                                        <option value="Debts">Debts</option>
+                                                        <option value="Salary">Salary</option>
+                                                        <option value="Part">Part</option>
+                                                        <option value="Percents">Percents</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="form-group label-static">
+                                                    <label class="control-label">Expenses category</label>
+                                                    <select name="expenseCategory" class="form-control">
+                                                        <option selected value="">Choose category</option>
+                                                        <option value="Gifts">Gifts</option>
+                                                        <option value="Debts">Debts</option>
+                                                        <option value="Food">Food</option>
+                                                        <option value="Car">Car</option>
+                                                        <option value="Transport">Transport</option>
+                                                        <option value="Food for pet">Food for pet</option>
+                                                        <option value="Goods">Goods</option>
+                                                        <option value="Services">Services</option>
+                                                        <option value="Rest">Rest</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="footer text-center">
+                                            <button class="btn btn-info btn-wd btn-lg" type="submit">
+                                                Ok
+                                                <div class="ripple-container"></div>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
